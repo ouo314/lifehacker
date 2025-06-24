@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS todos(
+    id  INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL,
+    status INTEGER DEFULT 0  -- 0:未執行 1:已完成 2: 執行中
+);
