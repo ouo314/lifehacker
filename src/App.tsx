@@ -1,51 +1,68 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
+import { useEffect, useState } from "react";
+import Database from '@tauri-apps/plugin-sql';
 import "./App.css";
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+type todo = { id: number, text: string, status: number };
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+function todoList() {
+
+  const [todos, setTodos] = useState<todo[]>([]);
+  const [input, setInput] = useState("");
+  const [db, setDb] = useState<Database | null>(null);
+
+  useEffect(() => {
+    async function initDb() {
+      try {
+        console.log('try loading db');
+        const database = await Database.load('sqlite:lifehacker.db');
+        console.log('db load success');
+        setDb(database);
+      } catch (error) {
+        console.error('database load error:', error);
+      }
+    }
+    initDb();
+  }, []);
+
+  async function refresh() {
+    const rows = await db.select<todo[]>("SELECT id, text, status FROM todos ORDER BY id DESC");
+    setTodos(rows);
   }
 
+  async function add() {
+    await db.execute("INSERT into todos (text) VALUES ($1)", [input]);
+    setInput("");
+    refresh();
+  }
+
+  async function toggle(t: todo) {
+    await db.execute("UPDATE todos SET status=$1 WHERE id=$2",
+      [t.status ? 0 : 1, t.id]);
+    refresh();
+  }
+
+  useEffect(() => {
+    if (db) refresh();
+  }, [db]);
+
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+    <div>
+      <h1>Todo List</h1>
+      <input
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={e => e.key === "Enter" && add()}
+      />
+      <ul>
+        {todos.map(t => (
+          <li key={t.id} onClick={() => toggle(t)}>
+            <input type="checkbox" readOnly checked={!!t.status} />
+            <span > {t.text} </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
-export default App;
+export default todoList;
