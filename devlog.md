@@ -20,3 +20,11 @@ status先完成 0 1的部分 2之後再加
 const database = await Database.load('sqlite:lifehacker.db'); 這行出現問題 dattabase沒有被正常載入
 =>找到本地的.db 確認todos有被建立成功
 =>刪掉本地的 lifehacker.db後再重新執行就正常運作了!!! AI說可能是本地檔案已經損壞 (在這邊卡了很久 :( 
+---
+##3
+元件開頭要大寫
+簡單畫了一下UI(UI.jpg)
+calendar使用"FullCalendar" https://fullcalendar.io/docs/react
+不知道為什麼"FullCalendar"不能占滿整個div
+=>不能用inline-flex 要用inline-block 
+跟者官方範例加入日曆跟事件功能

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Database from '@tauri-apps/plugin-sql';
-import "./App.css";
+import styles from "./TodoList.module.scss";
 
 type todo = { id: number, text: string, status: number };
 
-function todoList() {
+function TodoList() {
 
   const [todos, setTodos] = useState<todo[]>([]);
   const [input, setInput] = useState("");
@@ -13,9 +13,7 @@ function todoList() {
   useEffect(() => {
     async function initDb() {
       try {
-        console.log('try loading db');
         const database = await Database.load('sqlite:lifehacker.db');
-        console.log('db load success');
         setDb(database);
       } catch (error) {
         console.error('database load error:', error);
@@ -46,8 +44,8 @@ function todoList() {
   }, [db]);
 
   return (
-    <div>
-      <h1>Todo List</h1>
+    <div className={styles.todoList}>
+      <h1 >Todo List</h1>
       <input
         value={input}
         onChange={e => setInput(e.target.value)}
@@ -65,4 +63,4 @@ function todoList() {
   );
 }
 
-export default todoList;
+export default TodoList;
