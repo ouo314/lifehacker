@@ -28,3 +28,9 @@ calendar使用"FullCalendar" https://fullcalendar.io/docs/react
 不知道為什麼"FullCalendar"不能占滿整個div
 =>不能用inline-flex 要用inline-block 
 跟者官方範例加入日曆跟事件功能
+---
+##4
+把calendar events用sql存
+=>好像沒這個必要，用JSON存比較方便
+=>用SQL存之後加功能比較方便 所以還是用SQL吧
+看不太懂官方文件 用AI幫我整理資料 並提供範例程式
