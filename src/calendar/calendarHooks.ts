@@ -75,33 +75,38 @@ export function useCalendarEvents(db) {
             const values = []
             Object.entries(updates).forEach(([key, value]) => {
                 if (key === 'start') {
-                    updateFields.push('start_date=?')
+                    updateFields.push(`start_date=$${values.length + 1}`)
                     values.push(value)
                 } else if (key === 'end') {
-                    updateFields.push('end_date = ?')
+                    updateFields.push(`end_date=$${values.length + 1}`)
                     values.push(value)
                 } else if (key === 'allDay') {
-                    updateFields.push('all_day = ?')
+                    updateFields.push(`all_day=$${values.length + 1}`)
                     values.push(value ? 1 : 0)
                 } else {
-                    updateFields.push(`${key} = ?`)
+                    updateFields.push(`${key}=$${values.length + 1}`)
                     values.push(value)
                 }
             })
             if (updateFields.length > 0) {
                 values.push(eventId)
+
                 await db.execute(`
                     UPDATE calendarEvents
                     SET ${updateFields.join(', ')}
                     WHERE id= $${values.length}`, values)
+
                 console.log('event update success:', eventId)
                 return true
             }
+
+
         } catch (error) {
             console.error('event update failed:', error)
             throw error
         }
     }
+
     async function deleteEvent(id) {
         if (!db) throw new Error('database error')
         try {

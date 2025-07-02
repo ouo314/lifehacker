@@ -34,3 +34,11 @@ calendar使用"FullCalendar" https://fullcalendar.io/docs/react
 =>好像沒這個必要，用JSON存比較方便
 =>用SQL存之後加功能比較方便 所以還是用SQL吧
 看不太懂官方文件 用AI幫我整理資料 並提供範例程式
+變更檔案結構
+---
+##5
+events有bug 拖動事件後移動事件的話原本被拖動的事件會跑回原本的位置
+=>新增handleEventDrag
+=>updateEvents時資料庫沒有更新
+=>修正sql語法 但問題還是在 而且現在拖動後不能放下了
+=>info沒加.event

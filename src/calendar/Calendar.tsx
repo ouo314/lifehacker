@@ -48,6 +48,26 @@ function Calendar() {
         }
     }
 
+    const handleEventDrag = async (dragInfo) => {
+        if (!isReady) {
+            dragInfo.revert()
+            return
+        }
+
+        try {
+            await updateEvent(dragInfo.event.id,
+                {
+                    start: dragInfo.event.startStr,
+                    end: dragInfo.event.endStr
+                }
+            )
+            console.log("event update success")
+        } catch (error) {
+            console.error("event update failed:", error)
+            dragInfo.revert()
+            throw error
+        }
+    }
 
     return (
         <div className={styles.calendar}>
@@ -59,6 +79,9 @@ function Calendar() {
                 editable={true}
                 selectable={true}
                 select={handleDateSelect}
+                droppable={true}
+                eventDrop={handleEventDrag}
+                eventResize={handleEventDrag}
                 locale="zh-tw"
                 timeZone="Asia/Taipei"
             />
