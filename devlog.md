@@ -42,3 +42,6 @@ events有bug 拖動事件後移動事件的話原本被拖動的事件會跑回�
 =>updateEvents時資料庫沒有更新
 =>修正sql語法 但問題還是在 而且現在拖動後不能放下了
 =>info沒加.event
+
+使用font awesome icon 做header [text](https://fontawesome.com/license/free)
+修正margin 

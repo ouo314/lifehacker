@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    vertical-align: middle;
+    height: 10vh;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+button {
+    padding: 1vh 2vw;
+    height: 10vh;
+    width: 8vw;
+    background-color: rgb(255, 255, 255);
+    border: none;
+}
+
+.todo {
+    margin-left: 75vw;
+}
