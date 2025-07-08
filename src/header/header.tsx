@@ -10,9 +10,7 @@ export default function Header({ setSection }) {
             <button className={styles.button} onClick={() => { setSection('pain point') }}>
                 <PiProjectorScreenChartDuotone size={30} />
             </button>
-            <button className={styles.button}>
-                <FaList size={30} />
-            </button>
+
         </div>
     )
 

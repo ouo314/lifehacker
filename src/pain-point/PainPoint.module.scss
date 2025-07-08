@@ -25,12 +25,13 @@ label {
 }
 
 .background {
+    overflow-y: scroll;
     background-color: aliceblue;
     display: inline-block;
     vertical-align: top;
-    width: 74vw;
-    height: 80vh;
-    margin-left: 1vw;
+    width: 73vw;
+    height: 90vh;
+    padding: 1vw;
     position: relative;
 }
 
@@ -38,23 +39,26 @@ label {
     padding: 0%;
     width: 37px;
     height: 37px;
-    position: absolute;
-    bottom: 2vh;
-    right: 2vw;
+    z-index: 3;
+    position: fixed;
+    bottom: 7vh;
+    right: 28.5vw;
 }
 
 .window {
+    border-radius: 10px;
+    z-index: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 2vw;
-    background-color: white;
+    padding: 2vmax;
+    background-color: rgb(255, 255, 255);
 
     width: 60vw;
     height: 55vh;
-    position: relative;
-    left: 7vw;
-    top: 5vh;
+    position: absolute;
+    left: 5vw;
+    top: 7vh;
     font-size: 3vw;
 }
 
@@ -91,5 +95,42 @@ label {
     border: 0;
     border-radius: 10px;
     background-color: cadetblue;
-    background-color: rgb(203, 212, 83);
+    background-color: rgb(131, 109, 59);
+}
+
+.point_list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.point_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 13vh;
+    border-style: solid;
+    width: 60vw;
+    position: relative;
+    border-radius: 10px;
+    border-color: rgb(112, 85, 45);
+    margin-top: 3vh;
+}
+
+.title {
+
+    margin: 0;
+    margin-right: 3vw;
+    margin-left: 1vw;
+    padding: 0;
+    font-size: 5vmax;
+
+}
+
+.icon {
+    position: absolute;
+    right: 3vw;
+    width: 15vw;
+    display: flex;
+    justify-content: space-around;
 }
