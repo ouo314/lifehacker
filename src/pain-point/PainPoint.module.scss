@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: Inter;
+
+}
+
+label {
+    margin: 0;
+    margin-top: 2vh;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+
+}
+
+.common {
+    margin: 0;
+    margin-top: 2vh;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.background {
+    background-color: aliceblue;
+    display: inline-block;
+    vertical-align: top;
+    width: 74vw;
+    height: 80vh;
+    margin-left: 1vw;
+    position: relative;
+}
+
+.new_button {
+    padding: 0%;
+    width: 37px;
+    height: 37px;
+    position: absolute;
+    bottom: 2vh;
+    right: 2vw;
+}
+
+.window {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 2vw;
+    background-color: white;
+
+    width: 60vw;
+    height: 55vh;
+    position: relative;
+    left: 7vw;
+    top: 5vh;
+    font-size: 3vw;
+}
+
+.close_button {
+    border: none;
+    background-color: white;
+    position: absolute;
+    right: 1vw;
+    top: 1vh;
+}
+
+.button_div {
+    margin-top: 3vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete_button {
+    width: 8vw;
+    height: 6vh;
+    font-size: 2vw;
+    color: aliceblue;
+    border: 0;
+    border-radius: 10px;
+    background-color: rgb(245, 108, 108);
+
+}
+
+.save_button {
+    width: 8vw;
+    height: 6vh;
+    font-size: 2vw;
+    color: aliceblue;
+    border: 0;
+    border-radius: 10px;
+    background-color: cadetblue;
+    background-color: rgb(203, 212, 83);
+}

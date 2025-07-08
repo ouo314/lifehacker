@@ -45,3 +45,9 @@ events有bug 拖動事件後移動事件的話原本被拖動的事件會跑回�
 
 使用font awesome icon 做header [text](https://fontawesome.com/license/free)
 修正margin 
+---
+##6
+修正todo list input的CSS
+新增pain point
+複數tagx,possible solutions需要一對多 多對多SQL 之後有需要再加
+調整UI(字型、排版)

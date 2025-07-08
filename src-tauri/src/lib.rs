@@ -29,6 +29,23 @@ pub fn run() {
                 );"#,
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 3,
+            description: "create pain point sql",
+            // 0:未處理 1:已處理 2:處理中
+            // level: 影響程度、疼痛程度
+            sql: r#"CREATE TABLE IF NOT EXISTS pain_points(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                tag TEXT NOT NULL,
+                title TEXT NOT NULL,
+                status INTEGER DEFAULT 0 ,
+                level INTEGER , 
+                description TEXT,
+                possible_solution_description TEXT,
+                possible_solution_result TEXT
+                );"#,
+            kind: MigrationKind::Up,
+        },
     ];
     tauri::Builder::default()
         .plugin(

@@ -23,7 +23,7 @@ function TodoList() {
   }, []);
 
   async function refresh() {
-    const rows = await db.select<todo[]>("SELECT id, text, status FROM todos WHERE type='todo' ORDER BY id DESC");
+    const rows = await db.select<todo[]>("SELECT id, text, status FROM todos WHERE type='todo' ORDER BY id ASC");
     setTodos(rows);
   }
 
@@ -47,6 +47,7 @@ function TodoList() {
     <div className={styles.todoList}>
       <h1 >Todo List</h1>
       <input
+        className={styles.input}
         value={input}
         onChange={e => setInput(e.target.value)}
         onKeyDown={e => e.key === "Enter" && add()}
