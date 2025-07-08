@@ -1,7 +1,2 @@
-# Tauri + React + Typescript
-
-This template should help get you started developing with Tauri, React and Typescript in Vite.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+This is a productivity application that includes useful features like a todo-list, calendar, and pain points recording system. I hope this will become a truly convenient app for my daily use.
+My favorite feature is the pain points recorder. It allows this app to continuously evolve. Even though the app might be difficult to use right now, this feature enables me to update and improve it more efficiently. (translated by AI)
