@@ -23,17 +23,20 @@ function TodoList() {
   }, []);
 
   async function refresh() {
+    if (!db) return;
     const rows = await db.select<todo[]>("SELECT id, text, status FROM todos WHERE type='todo' ORDER BY id ASC");
     setTodos(rows);
   }
 
   async function add() {
+    if (!db) return;
     await db.execute("INSERT INTO todos (text,type) VALUES ($1,'todo')", [input]);
     setInput("");
     refresh();
   }
 
   async function toggle(t: todo) {
+    if (!db) return;
     await db.execute("UPDATE todos SET status=$1 WHERE id=$2",
       [t.status ? 0 : 1, t.id]);
     refresh();

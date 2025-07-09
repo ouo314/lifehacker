@@ -2,7 +2,13 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { useRef } from 'react';
+import { useRef } from 'react'
+import type { EventResizeDoneArg } from '@fullcalendar/interaction'
+import type {
+    DateSelectArg,
+    EventDropArg,
+    EventApi
+} from '@fullcalendar/core'
 import styles from './Calendar.module.scss'
 import { useCalendarEvents, useDatabase } from './calendarHooks'
 
@@ -10,8 +16,13 @@ function Calendar() {
 
     const { db, isReady } = useDatabase()
     const { addEvent, loadEvents, updateEvent, deleteEvent } = useCalendarEvents(db)
-    const calendarRef = useRef()
-    async function eventsFunction(fetchInfo, successCallback, failCallback) {
+    const calendarRef = useRef<FullCalendar | null>(null)
+    async function eventsFunction(
+        fetchInfo: {
+            startStr: string;
+            endStr: string;
+            timeZone: string
+        }, successCallback: (events: any[]) => void, failCallback: (error: any) => void) {
         if (!isReady || !db) {
             failCallback("database isn't ready")
             return
@@ -31,11 +42,12 @@ function Calendar() {
         }
     }
 
-    const handleDateSelect = async (selectInfo) => {
-        let title = prompt("enter title")
+    const handleDateSelect = async (selectInfo: DateSelectArg) => {
+        let inputTitle = prompt("enter title") || ""
+        if (!inputTitle.trim()) return
         try {
             const eventData = {
-                title,
+                title: inputTitle,
                 start: selectInfo.startStr,
                 end: selectInfo.endStr,
                 allDay: selectInfo.allDay
@@ -44,11 +56,27 @@ function Calendar() {
             calendarRef.current?.getApi().refetchEvents()
             selectInfo.view.calendar.unselect()
         } catch (error) {
-            alert("add event error " + error.message)
+            alert("add event error " + (error as Error).message)
         }
     }
+    const handleEventResize = async (resizeInfo: EventResizeDoneArg) => {
+        if (!isReady) {
+            resizeInfo.revert()
+            return
+        }
 
-    const handleEventDrag = async (dragInfo) => {
+        try {
+            await updateEvent(resizeInfo.event.id, {
+                start: resizeInfo.event.startStr,
+                end: resizeInfo.event.endStr
+            })
+            console.log("event resize success")
+        } catch (error) {
+            console.error("event resize failed:", error)
+            resizeInfo.revert()
+        }
+    }
+    const handleEventDrag = async (dragInfo: EventDropArg) => {
         if (!isReady) {
             dragInfo.revert()
             return
@@ -69,6 +97,17 @@ function Calendar() {
         }
     }
 
+    const handleEventClick = async (clickInfo: { event: EventApi }) => {
+        if (confirm(`delete "${clickInfo.event.title}" ?`)) {
+            try {
+                await deleteEvent(clickInfo.event.id)
+                calendarRef.current?.getApi().refetchEvents()
+            } catch (error) {
+                alert("delete failed: " + (error as Error).message)
+            }
+        }
+    }
+
     return (
         <div className={styles.calendar}>
             <FullCalendar
@@ -81,7 +120,8 @@ function Calendar() {
                 select={handleDateSelect}
                 droppable={true}
                 eventDrop={handleEventDrag}
-                eventResize={handleEventDrag}
+                eventResize={handleEventResize}
+                eventClick={handleEventClick}
                 locale="zh-tw"
                 timeZone="Asia/Taipei"
             />

@@ -1,7 +1,12 @@
-import { FaCalendar, FaList } from 'react-icons/fa';
+import { FaCalendar } from 'react-icons/fa';//, FaList 
 import { PiProjectorScreenChartDuotone } from "react-icons/pi";
 import styles from './header.module.scss'
-export default function Header({ setSection }) {
+
+type HookFunction = {
+    setSection: (section: string) => void;
+};
+
+export default function Header({ setSection }: HookFunction) {
     return (
         <div className={styles.header}>
             <button className={styles.button} onClick={() => { setSection('calendar') }}>

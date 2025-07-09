@@ -1,7 +1,7 @@
 import styles from './PainPoint.module.scss'
 import { BsPlusSquare } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
-import { GrStatusCritical, GrStatusDisabled, GrStatusGood, GrStatusUnknown } from "react-icons/gr";
+import { GrStatusCritical, GrStatusDisabled, GrStatusGood } from "react-icons/gr";//, GrStatusUnknown 
 import {
     TbHexagonNumber1Filled, TbHexagonNumber2Filled, TbHexagonNumber3Filled,
     TbHexagonNumber4Filled, TbHexagonNumber5Filled, TbHexagonNumber1,
@@ -43,6 +43,7 @@ function PainPoint() {
     }, []);
 
     async function refresh() {
+        if (!db) return
         const rows = await db.select<painPoint[]>(`
           SELECT *
           FROM pain_points 
@@ -52,6 +53,7 @@ function PainPoint() {
     }
 
     async function add(p: painPoint) {
+        if (!db) return
         await db.execute(`
           INSERT INTO pain_points (tag,title,status,level,description,possible_solution_description,possible_solution_result) 
           VALUES ($1,$2,$3,$4,$5,$6,$7)`,
@@ -60,6 +62,7 @@ function PainPoint() {
     }
 
     async function update(p: painPoint) {
+        if (!db) return
         await db.execute(`
           UPDATE pain_points 
           SET tag=$2,
@@ -75,6 +78,7 @@ function PainPoint() {
     }
 
     async function deleteItem(id: Number) {
+        if (!db) return
         await db.execute(`DELETE FROM pain_points WHERE id=?`, [id]);
         refresh()
     }
@@ -89,7 +93,7 @@ function PainPoint() {
         getItem(id)*/
         const [infoStatus, setInfoStatus] = useState(item?.status || 1)
         const [infoLevel, setInfoLevel] = useState(item?.level || 1)
-
+        if (!item) return
 
         return (
             <div className={styles.window}>
