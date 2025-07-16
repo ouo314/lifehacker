@@ -1,28 +1,69 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import TodoList from "./todo/TodoList.tsx";
-import Calendar from "./calendar/Calendar.tsx";
+import { TodoPage } from "./features/todo/TodoPage";
+import Calendar from "./features/calendar/Calendar.tsx";
 import Header from "./header/header.tsx";
-import PainPoint from "./pain-point/PainPoint.tsx";
+import PainPage from "./features/pain-point/PainPage.tsx";
+import { ModeToggle } from "./components/shared/ModeToggle";
 import { useState } from 'react';
-import './global.scss'
+import { ThemeProvider } from "./hooks/useTheme";
+import './styles/index.css'
+
+
 function APP() {
   const [section, setSection] = useState('calendar')
   return (
-    <>
-      <Header setSection={setSection} />
-      {section === 'calendar' && <Calendar />}
-      {section === 'pain point' && <PainPoint />}
-      <TodoList />
-    </>
+    <div className="bg-background text-foreground grid grid-rows-[auto_1fr_auto] h-screen">
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="flex items-center justify-between p-4">
+          <nav className="flex gap-2">
+            <button
+              onClick={() => setSection("todo")}
+              className={`px-4 py-2 rounded-md ${section === "todo"
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"
+                }`}
+            >
+              待辦清單
+            </button>
+            <button
+              onClick={() => setSection("calendar")}
+              className={`px-4 py-2 rounded-md ${section === "calendar"
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"
+                }`}
+            >
+              行事曆
+            </button>
+            <button
+              onClick={() => setSection("pain")}
+              className={`px-4 py-2 rounded-md ${section === "pain"
+                ? "bg-primary text-primary-foreground"
+                : "hover:bg-muted"
+                }`}
+            >
+              痛點紀錄
+            </button>
+          </nav>
+          <ModeToggle />
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto p-4 overflow-y-auto">
+        {section === "todo" && <TodoPage />}
+        {section === "calendar" && <Calendar />}
+        {section === "pain" && <PainPage />}
+      </main>
+    </div>
   )
 
 }
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-
   <React.StrictMode>
-    <APP />
+    <ThemeProvider>
+      <APP />
+    </ThemeProvider>
   </React.StrictMode>
-
-
 );

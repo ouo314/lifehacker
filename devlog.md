@@ -63,3 +63,13 @@ info window遇到 invalid hook
 =>加入各類type
 刪除沒有用到的import
 build version 0.1.0 !!!
+---
+##9
+優化UI (tailwind+shadcn)
+加入深色模式
+
+index.css一直有error:
+Cannot apply unknown utility class 'bg-background'
+Cannot apply unknown utility class 'outline-ring/50'
+=>發現是混用tailwind v3跟v4的語法
+=>拋棄 tailwind.config.js，改用 CSS-first 配置

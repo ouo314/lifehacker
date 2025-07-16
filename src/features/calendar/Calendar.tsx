@@ -9,7 +9,6 @@ import type {
     EventDropArg,
     EventApi
 } from '@fullcalendar/core'
-import styles from './Calendar.module.scss'
 import { useCalendarEvents, useDatabase } from './calendarHooks'
 
 function Calendar() {
@@ -109,24 +108,49 @@ function Calendar() {
     }
 
     return (
-        <div className={styles.calendar}>
-            <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView='dayGridMonth'
-                events={eventsFunction}
-                editable={true}
-                selectable={true}
-                select={handleDateSelect}
-                droppable={true}
-                eventDrop={handleEventDrag}
-                eventResize={handleEventResize}
-                eventClick={handleEventClick}
-                locale="zh-tw"
-                timeZone="Asia/Taipei"
-            />
+        <div className="p-6 max-w-6xl mx-auto">
+            <div className="card-enhanced p-6">
+                <h1 className="text-2xl font-bold mb-4">行事曆</h1>
+                <div className="bg-background rounded-lg">
+                    <FullCalendar
+                        ref={calendarRef}
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        headerToolbar={{
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        }}
+                        initialView='dayGridMonth'
+                        editable={true}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={true}
+                        height="auto"
+                        events={eventsFunction}
+                        select={handleDateSelect}
+                        eventClick={handleEventClick}
+                        eventDrop={handleEventDrag}
+                        eventResize={handleEventResize}
+                        locale='zh-tw'
+                        buttonText={{
+                            today: '今天',
+                            month: '月',
+                            week: '週',
+                            day: '日'
+                        }}
+                        firstDay={1}
+                        weekNumbers={true}
+                        eventDisplay='block'
+                        displayEventTime={true}
+                        allDaySlot={true}
+                        slotMinTime="06:00:00"
+                        slotMaxTime="24:00:00"
+                        nowIndicator={true}
+                        scrollTime="08:00:00"
+                    />
+                </div>
+            </div>
         </div>
-
     );
 
 }
