@@ -3,7 +3,7 @@ import {
     TbHexagonNumber1Filled, TbHexagonNumber2Filled, TbHexagonNumber3Filled,
     TbHexagonNumber4Filled, TbHexagonNumber5Filled
 } from "react-icons/tb";
-import type { PainPoint } from "./usePainPoints";
+import type { PainPoint } from "../../lib/demo";
 
 const iconSize = 20;
 

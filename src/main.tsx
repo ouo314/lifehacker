@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { TodoPage } from "./features/todo/TodoPage";
 import Calendar from "./features/calendar/Calendar.tsx";
-import Header from "./header/header.tsx";
 import PainPage from "./features/pain-point/PainPage.tsx";
 import { ModeToggle } from "./components/shared/ModeToggle";
 import { useState } from 'react';

@@ -1,10 +1,10 @@
-import { ScrollArea } from "../../components/ui/scroll-area";
 import { Button } from "../../components/ui/button";
 import { BsPlusSquare } from "react-icons/bs";
 import { useState } from "react";
 import { PainCard } from "./PainCard";
 import { PainDialog } from "./PainDialog";
-import { usePainPoints, PainPoint } from "./usePainPoints";
+import { usePainPoints } from "./usePainPoints";
+import type { PainPoint } from '../../lib/demo';
 
 export default function PainPage() {
     const { points, add, update, remove } = usePainPoints();

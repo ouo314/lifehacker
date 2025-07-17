@@ -15,7 +15,7 @@ import {
     TbHexagonNumber5, TbHexagonNumber5Filled
 } from "react-icons/tb";
 import { useState, useEffect } from "react";
-import type { PainPoint } from './usePainPoints';
+import type { PainPoint } from '../../lib/demo';
 
 interface Props {
     open: boolean;

@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "homepage": "https://ouo314.github.io/lifehacker",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.17",
