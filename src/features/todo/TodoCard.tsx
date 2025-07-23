@@ -1,5 +1,5 @@
 import { Checkbox } from "../../components/ui/checkbox";
-
+import { MdDeleteForever } from "react-icons/md";
 type Todo = {
   id: number;
   text: string;
@@ -9,9 +9,10 @@ type Todo = {
 interface TodoCardProps {
   todo: Todo;
   onToggle: (todo: Todo) => void;
+  onRemove: (todo: Todo) => void;
 }
 
-export function TodoCard({ todo, onToggle }: TodoCardProps) {
+export function TodoCard({ todo, onToggle, onRemove }: TodoCardProps) {
   return (
     <div className="card-enhanced p-4 m-2">
       <div className="flex items-center space-x-3">
@@ -28,6 +29,14 @@ export function TodoCard({ todo, onToggle }: TodoCardProps) {
         >
           {todo.text}
         </span>
+        <button className='ml-auto mr-4' onClick={() => {
+          let yes = confirm('確認刪除?')
+          if (yes) onRemove(todo)
+
+        }}>
+          <MdDeleteForever size={22} />
+        </button>
+
       </div>
     </div>
   );

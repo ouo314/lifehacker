@@ -54,9 +54,18 @@ export const useTodos = () => {
     refresh();
   };
 
+  const remove = async (todo: Todo) => {
+    if (isTauri() && db) {
+      await db.execute('DELETE FROM todos WHERE id=?', [todo.id])
+    } else {
+      demoStore.todos.remove(todo.id);
+    }
+    refresh();
+  }
+
   useEffect(() => {
     refresh();
   }, [db]);
 
-  return { todos, add, toggle };
+  return { todos, add, toggle, remove };
 };

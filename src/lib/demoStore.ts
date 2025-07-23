@@ -19,6 +19,9 @@ export const demoStore = {
             );
             write('todos', list);
         },
+        remove: (id: number) => {
+            write('todos', read<Todo[]>('todos', []).filter(x => x.id !== id));
+        }
     },
     painPoints: {
         all: (): PainPoint[] => read('painPoints', []),

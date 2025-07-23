@@ -5,7 +5,7 @@ import { TodoCard } from "./TodoCard";
 import { useTodos } from "./useTodos";
 
 export function TodoPage() {
-  const { todos, add, toggle } = useTodos();
+  const { todos, add, toggle, remove } = useTodos();
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = async () => {
@@ -54,6 +54,7 @@ export function TodoPage() {
               key={todo.id}
               todo={todo}
               onToggle={toggle}
+              onRemove={remove}
             />
           ))
         )}
