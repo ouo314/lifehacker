@@ -23,12 +23,12 @@ export function TodoPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-4">待辦清單</h1>
+        <h1 className="text-2xl font-bold mb-4">Todo List</h1>
 
         <div className="flex gap-3">
           <Input
             className="input-enhanced flex-1"
-            placeholder="新增待辦事項..."
+            placeholder="Add Todo ..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -38,7 +38,7 @@ export function TodoPage() {
             onClick={handleSubmit}
             disabled={!inputValue.trim()}
           >
-            新增
+            add
           </Button>
         </div>
       </div>
@@ -46,7 +46,7 @@ export function TodoPage() {
       <div className="space-y-2 no-scrollbar max-h-96 overflow-y-auto">
         {todos.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
-            尚無待辦事項
+            No Todo Items yet
           </div>
         ) : (
           todos.map(todo => (

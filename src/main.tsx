@@ -24,7 +24,7 @@ function APP() {
                 : "hover:bg-muted"
                 }`}
             >
-              待辦清單
+              Todo
             </button>
             <button
               onClick={() => setSection("calendar")}
@@ -33,7 +33,7 @@ function APP() {
                 : "hover:bg-muted"
                 }`}
             >
-              行事曆
+              Calendar
             </button>
             <button
               onClick={() => setSection("pain")}
@@ -42,7 +42,7 @@ function APP() {
                 : "hover:bg-muted"
                 }`}
             >
-              痛點紀錄
+              Pain Point
             </button>
           </nav>
           <ModeToggle />
@@ -50,7 +50,7 @@ function APP() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto p-4 overflow-y-auto">
+      <main className="container mx-auto p-4 overflow-y-auto no-scrollbar">
         {section === "todo" && <TodoPage />}
         {section === "calendar" && <Calendar />}
         {section === "pain" && <PainPage />}

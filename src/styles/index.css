@@ -212,6 +212,19 @@
 .fc-theme-standard th,
 .fc-theme-standard td {
     border: 1px solid hsl(var(--color-border) / 0.3);
+    background-color: hsl(var(--color-background));
+}
+
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th {
+    border-color: hsl(var(--color-border)) !important;
+    background-color: hsl(var(--color-background));
+    /* 確保沒異色 */
+}
+
+/* 覆蓋 FullCalendar .fc-scrollgrid 边框 */
+.dark .fc .fc-scrollgrid {
+    border-color: hsl(var(--color-border)) !important;
 }
 
 .fc .fc-col-header-cell-cushion,
@@ -328,6 +341,11 @@
 .dark .fc .fc-scrollgrid-sync-table th {
     background-color: hsl(var(--color-background)) !important;
     color: hsl(var(--color-foreground)) !important;
+}
+
+.fc .fc-scrollgrid,
+.fc .fc-scrollgrid-sync-table {
+    box-shadow: none !important;
 }
 
 .dialog-content {

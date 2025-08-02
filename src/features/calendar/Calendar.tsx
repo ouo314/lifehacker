@@ -110,8 +110,8 @@ function Calendar() {
     return (
         <div className="p-6 max-w-6xl mx-auto">
             <div className="card-enhanced p-6">
-                <h1 className="text-2xl font-bold mb-4">行事曆</h1>
-                <div className="bg-background rounded-lg">
+                <h1 className="text-2xl font-bold mb-4">Calendar</h1>
+                <div className="p-6 bg-card border max-w-4xl mx-autobg-background rounded-lg">
                     <FullCalendar
                         ref={calendarRef}
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -131,15 +131,15 @@ function Calendar() {
                         eventClick={handleEventClick}
                         eventDrop={handleEventDrag}
                         eventResize={handleEventResize}
-                        locale='zh-tw'
-                        buttonText={{
+                        //locale='zh-tw'
+                        /*buttonText={{
                             today: '今天',
                             month: '月',
                             week: '週',
                             day: '日'
-                        }}
+                        }}*/
                         firstDay={1}
-                        weekNumbers={true}
+                        weekNumbers={false}
                         eventDisplay='block'
                         displayEventTime={true}
                         allDaySlot={true}

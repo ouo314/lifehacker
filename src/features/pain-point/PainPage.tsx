@@ -24,17 +24,17 @@ export default function PainPage() {
     return (
         <div className="p-6 max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">痛點紀錄</h1>
+                <h1 className="text-2xl font-bold">Pain Point Record</h1>
                 <Button
                     className="btn-primary flex items-center gap-2"
                     onClick={() => {
                         setEditing(null);
                         setDialogOpen(true);
                     }}
-                    aria-label="新增 Pain Point"
+                    aria-label="Add Pain Point"
                 >
                     <BsPlusSquare size={18} />
-                    新增痛點
+                    Add Pain Point
                 </Button>
             </div>
 
@@ -42,8 +42,8 @@ export default function PainPage() {
                 {points.length === 0 ? (
                     <div className="col-span-full text-center py-12 text-muted-foreground">
                         <BsPlusSquare size={48} className="mx-auto mb-4 opacity-50" />
-                        <p>尚無痛點紀錄</p>
-                        <p className="text-sm mt-2">點擊上方按鈕開始新增</p>
+                        <p>No Record Yet</p>
+                        <p className="text-sm mt-2">Click Button To Add Record</p>
                     </div>
                 ) : (
                     points.map(p => (

@@ -77,3 +77,7 @@ Cannot apply unknown utility class 'outline-ring/50'
 ## 10
 製作demo網頁(gitpage)
 偵測運作環境切換sqlite/localstroage
+---
+## 11
+文字改成英文
+修正深色模式下框線異常的問題

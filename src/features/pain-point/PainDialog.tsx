@@ -31,21 +31,21 @@ const statusBtns = [
         icon: GrStatusCritical,
         color: "text-destructive",
         selectedColor: "text-red-500",
-        label: "未處理"
+        label: "Not processed"
     },
     {
         id: 2,
         icon: GrStatusDisabled,
         color: "text-destructive",
         selectedColor: "text-yellow-700",
-        label: "待處理"
+        label: "Pending"
     },
     {
         id: 3,
         icon: GrStatusGood,
         color: "text-destructive",
         selectedColor: "text-green-500",
-        label: "已完成"
+        label: "Complete"
     },
 ];
 
@@ -97,38 +97,38 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="dialog-content max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="dialog-content max-w-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold">
-                        {isEdit ? "編輯 Pain Point" : "新增 Pain Point"}
+                        {isEdit ? "Edit Pain Point" : "Add Pain Point"}
                     </DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-6 py-4">
                     <div>
-                        <Label htmlFor="title" className="text-sm font-medium">標題</Label>
+                        <Label htmlFor="title" className="text-sm font-medium">Title</Label>
                         <Input
                             id="title"
                             className="input-enhanced mt-1"
-                            placeholder="請輸入標題"
+                            placeholder="Enter Title"
                             value={form.title}
                             onChange={(e) => setForm({ ...form, title: e.target.value })}
                         />
                     </div>
 
                     <div>
-                        <Label htmlFor="tag" className="text-sm font-medium">標籤</Label>
+                        <Label htmlFor="tag" className="text-sm font-medium">Tag</Label>
                         <Input
                             id="tag"
                             className="input-enhanced mt-1"
-                            placeholder="請輸入標籤（選填）"
+                            placeholder="Choose Tag (Option)"
                             value={form.tag}
                             onChange={(e) => setForm({ ...form, tag: e.target.value })}
                         />
                     </div>
 
                     <div>
-                        <Label className="text-sm font-medium block mb-2">狀態</Label>
+                        <Label className="text-sm font-medium block mb-2">Status</Label>
                         <div className="flex gap-2">
                             {statusBtns.map(({ id, icon: Icon, color, selectedColor, label }) => (
                                 <button
@@ -155,18 +155,18 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
 
 
                     <div>
-                        <Label className="text-sm font-medium block mb-2">嚴重程度</Label>
+                        <Label className="text-sm font-medium block mb-2">Severity</Label>
                         <div className="flex gap-2">
                             {[1, 2, 3, 4, 5].map(lvl => levelBtn(lvl as 1 | 2 | 3 | 4 | 5))}
                         </div>
                     </div>
 
                     <div>
-                        <Label htmlFor="description" className="text-sm font-medium">描述</Label>
+                        <Label htmlFor="description" className="text-sm font-medium">Description</Label>
                         <Textarea
                             id="description"
                             className="input-enhanced mt-1"
-                            placeholder="請描述問題的詳細情況"
+                            placeholder="Describe the problem in detail"
                             value={form.description}
                             onChange={(e) => setForm({ ...form, description: e.target.value })}
                             rows={3}
@@ -174,11 +174,11 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
                     </div>
 
                     <div>
-                        <Label htmlFor="solution-desc" className="text-sm font-medium">解法（描述）</Label>
+                        <Label htmlFor="solution-desc" className="text-sm font-medium">Solution (Description)</Label>
                         <Textarea
                             id="solution-desc"
                             className="input-enhanced mt-1"
-                            placeholder="請描述可能的解決方案"
+                            placeholder="Possible Solution"
                             value={form.possible_solution_description}
                             onChange={(e) => setForm({ ...form, possible_solution_description: e.target.value })}
                             rows={3}
@@ -186,11 +186,11 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
                     </div>
 
                     <div>
-                        <Label htmlFor="solution-result" className="text-sm font-medium">解法（結果）</Label>
+                        <Label htmlFor="solution-result" className="text-sm font-medium">Solution (Result)</Label>
                         <Textarea
                             id="solution-result"
                             className="input-enhanced mt-1"
-                            placeholder="請描述解決方案的預期結果"
+                            placeholder="Does it works?"
                             value={form.possible_solution_result}
                             onChange={(e) => setForm({ ...form, possible_solution_result: e.target.value })}
                             rows={3}
@@ -207,7 +207,7 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
                                 onClick={onDelete}
                                 className="btn-secondary bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             >
-                                刪除
+                                Delete
                             </Button>
                         )}
                     </div>
@@ -215,7 +215,7 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
                     <div className="flex gap-2">
                         <DialogClose asChild>
                             <Button type="button" variant="outline" className="btn-secondary">
-                                取消
+                                Cancel
                             </Button>
                         </DialogClose>
                         <Button
@@ -227,7 +227,7 @@ export function PainDialog({ open, initial, onSave, onDelete, onOpenChange }: Pr
                                 onOpenChange(false);
                             }}
                         >
-                            {isEdit ? "更新" : "儲存"}
+                            {isEdit ? "Update" : "Save"}
                         </Button>
                     </div>
                 </DialogFooter>
