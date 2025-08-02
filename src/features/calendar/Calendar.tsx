@@ -22,7 +22,7 @@ function Calendar() {
             endStr: string;
             timeZone: string
         }, successCallback: (events: any[]) => void, failCallback: (error: any) => void) {
-        if (!isReady || !db) {
+        if (!isReady) {
             failCallback("database isn't ready")
             return
         }

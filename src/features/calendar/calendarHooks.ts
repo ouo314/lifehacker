@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import type Database from '@tauri-apps/plugin-sql';
-import { isTauri } from '../../lib/env';
 import { demoStore } from '../../lib/demoStore';
 import type { EventData, CalendarEvent } from '../../lib/demo';
 
 /* ① 取得 DB 連線（Tauri）或直接標記就緒（Web） */
 export const useDatabase = () => {
-    const [db, setDb] = useState<Database | null>(null);
+    const [db, setDb] = useState<any>(null);
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        if (isTauri()) {
-            import('@tauri-apps/plugin-sql')
-                .then(m => m.default.load('sqlite:lifehacker.db'))
-                .then(d => { setDb(d); setReady(true); })
-                .catch(console.error);
-        } else { setReady(true); }
+
+        import('@tauri-apps/plugin-sql')
+            .then(m => m.default.load('sqlite:lifehacker.db'))
+            .then(d => { setDb(d); setReady(true); })
+            .catch(() => {
+                setDb(null);
+                setReady(true);
+            });
+
     }, []);
 
     return { db, isReady: ready };
@@ -24,7 +26,7 @@ export const useDatabase = () => {
 /* ② 行事曆 CRUD，依環境切換資料來源 */
 export const useCalendarEvents = (db: Database | null) => {
     const loadEvents = async (start: string, end: string): Promise<CalendarEvent[]> =>
-        isTauri() && db
+        db
             ? (await db.select<CalendarEvent[]>(
                 `SELECT id,title,start_date AS start,end_date AS end,
                   all_day AS "allDay",description,type
@@ -38,7 +40,7 @@ export const useCalendarEvents = (db: Database | null) => {
             : demoStore.calendarEvents.range(start, end);
 
     const addEvent = async (e: EventData) =>
-        isTauri() && db
+        db
             ? db.execute(
                 `INSERT INTO calendarEvents
            (id,title,start_date,end_date,all_day,description,type)
@@ -50,7 +52,7 @@ export const useCalendarEvents = (db: Database | null) => {
             : demoStore.calendarEvents.add(e);
 
     const updateEvent = async (id: string, u: Partial<EventData>) =>
-        isTauri() && db
+        db
             ? (() => {
                 const f: string[] = [], v: any[] = [];
                 Object.entries(u).forEach(([k, val]) => {
@@ -63,7 +65,7 @@ export const useCalendarEvents = (db: Database | null) => {
             : demoStore.calendarEvents.update(id, u as any);
 
     const deleteEvent = async (id: string) =>
-        isTauri() && db
+        db
             ? db.execute('DELETE FROM calendarEvents WHERE id=$1', [id])
             : demoStore.calendarEvents.remove(id);
 

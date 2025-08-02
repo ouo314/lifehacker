@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import type Database from '@tauri-apps/plugin-sql';
-import { isTauri } from '../../lib/env';
 import { demoStore } from '../../lib/demoStore';
 import type { PainPoint } from '../../lib/demo';
 
@@ -9,16 +8,16 @@ export function usePainPoints() {
   const [points, set] = useState<PainPoint[]>([]);
 
   useEffect(() => {
-    if (isTauri()) {
-      import('@tauri-apps/plugin-sql')
-        .then(m => m.default.load('sqlite:lifehacker.db'))
-        .then(setDb)
-        .catch(console.error);
-    }
+
+    import('@tauri-apps/plugin-sql')
+      .then(m => m.default.load('sqlite:lifehacker.db'))
+      .then(d => setDb(d))
+      .catch(() => { setDb(null) });
+
   }, []);
 
   const refresh = useCallback(async () => {
-    set(isTauri() && db
+    set(db
       ? await db.select<PainPoint[]>('SELECT * FROM pain_points ORDER BY id DESC')
       : demoStore.painPoints.all());
   }, [db]);
@@ -27,7 +26,7 @@ export function usePainPoints() {
 
   /* CRUD ---------------------------------------------------------------- */
   const add = async (p: Omit<PainPoint, 'id'>) => {
-    isTauri() && db
+    db
       ? await db.execute(
         `INSERT INTO pain_points
            (tag,title,status,level,description,possible_solution_description,possible_solution_result)
@@ -39,7 +38,7 @@ export function usePainPoints() {
   };
 
   const update = async (p: PainPoint) => {
-    isTauri() && db
+    db
       ? await db.execute(
         `UPDATE pain_points SET
              tag=$2,title=$3,status=$4,level=$5,description=$6,
@@ -52,7 +51,7 @@ export function usePainPoints() {
   };
 
   const remove = async (id: number) => {
-    isTauri() && db
+    db
       ? await db.execute('DELETE FROM pain_points WHERE id=$1', [id])
       : demoStore.painPoints.remove(id);
     refresh();

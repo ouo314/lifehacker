@@ -10,7 +10,7 @@ import './styles/index.css'
 
 
 function APP() {
-  const [section, setSection] = useState('calendar')
+  const [section, setSection] = useState('pain')
   return (
     <div className="bg-background text-foreground grid grid-rows-[auto_1fr_auto] h-screen">
       {/* Header */}
