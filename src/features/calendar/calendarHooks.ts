@@ -56,8 +56,9 @@ export const useCalendarEvents = (db: Database | null) => {
             ? (() => {
                 const f: string[] = [], v: any[] = [];
                 Object.entries(u).forEach(([k, val]) => {
-                    f.push(`${k === 'allDay' ? 'all_day' : k}=$${v.length + 1}`);
+                    f.push(`${k === 'allDay' ? 'all_day' : (k === 'start' ? 'start_date' : (k === 'end' ? 'end_date' : k))}=$${v.length + 1}`);
                     v.push(k === 'allDay' ? (val ? 1 : 0) : val);
+
                 });
                 v.push(id);
                 return db.execute(`UPDATE calendarEvents SET ${f.join(',')} WHERE id=$${v.length}`, v);

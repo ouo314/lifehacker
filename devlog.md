@@ -81,3 +81,5 @@ Cannot apply unknown utility class 'outline-ring/50'
 ## 11
 文字改成英文
 修正深色模式下框線異常的問題 
+修正SQL/local stroge切換異常問題 (window.__TAURI__已經停用)
+修正event無法拖曳(名稱差異)
