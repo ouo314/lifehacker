@@ -40,7 +40,7 @@ export function usePainPoints() {
   const update = async (p: PainPoint) => {
     db
       ? await db.execute(
-        `UPDATE pain_points SET
+        `UPDATE pain_points SET 
              tag=$2,title=$3,status=$4,level=$5,description=$6,
              possible_solution_description=$7,possible_solution_result=$8
            WHERE id=$1`,

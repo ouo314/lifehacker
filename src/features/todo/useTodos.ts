@@ -16,6 +16,7 @@ export const useTodos = () => {
       .catch(() => { setDb(null) });
 
   }, []);
+
   const refresh = async () => {
     if (db) {
       const rows = await db.select<Todo[]>(
