@@ -48,7 +48,7 @@ export const useTodos = () => {
         todo.id,
       ]);
     } else {
-      demoStore.todos.toggle(todo.id);
+      demoStore.todos.update(todo.id);
     }
     refresh();
   };

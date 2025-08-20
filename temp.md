@@ -1,8 +1,7 @@
-
+``` typescript
 export const useDatabase = <T> (dataName:string) => {
-
     const [db, setDb] = useState<Database | null>(null);
-    const [list,setList] = useState<T[]>(null); 
+      
     useEffect(() => {
         import('@tauri-apps/plugin-sql') 
         .then(m => m.default.load('sqlite:lifehacker.db'))
@@ -10,15 +9,14 @@ export const useDatabase = <T> (dataName:string) => {
         .catch(() => { setDb(null) });
     }, []);
 
-    const get = async (start: string, end: string,table:string[]): Promise<T[]> =>
+    const getAll = async (): Promise<T[]> =>
     { 
         if(db){
-            await db.select<T[]>(`SELECT ${table} FROM ${dataName} `)
+            return await db.select<T[]>(`SELECT * FROM ${dataName} `)
         }
         else{
-            demoStore.${dataName}$.all();
-        }
-            
+            return demoStore[dataName].all();
+        }            
     }
 
     const add = async (data: Omit<T, 'id'>) => {
@@ -29,37 +27,63 @@ export const useDatabase = <T> (dataName:string) => {
           .join(',');
         const values = Object.values(data);
         
-        await db.execute(
+        return await db.execute(
           `INSERT INTO ${dataName} (${columns}) VALUES (${placeholders})`,
           values
         );
       } else {
         demoStore[dataName].add(data);
       }
-      refresh(); 
+   
     };
-
       
-    const update = async (key: string[],value:string[]) => {
+    const update = async (data:Partial<Omit<T,'id'>>,id:string|number) => {
     if(db){
-      await db.execute(
-        
+      const setClause = Object.keys(data).map( (key,index)=> 
+      `${key}=$${index+2}` ).join(',')
+      const values = Object.values(data);
+      return await db.execute(        
         `UPDATE ${dataName} SET 
-             ${key}=$${i}
-           WHERE id=$1`,
-        [p.id, p.tag, p.title, p.status, p.level, p.description,
-        p.possible_solution_description, p.possible_solution_result])
-       
+        ${setClause} 
+        WHERE id=$1`,
+        [id,...values])       
     }else{
-      demoStore.${dataName}.update(value);
+      demoStore[dataName].update(values);
     }
+
     const remove = async (id:string) => {
-    if (db) {
-      await db.execute(`DELETE FROM ${dataName} WHERE id=?`, id)
-    } else {
-      demoStore.${dataName}.remove(id);
+      if (db) {
+        return await db.execute(`DELETE FROM ${dataName} WHERE id=$1`, id)
+      } else {
+        demoStore[dataName].remove(id);
+      }
+ 
     }
-    refresh();
-  }
+
   };
+  return { getAll, add, update, remove}
+
 };
+```
+
+
+## Database Refactor Devlog
+
+### 1. Problem Discovery
+- Multiple hooks (Todos, PainPoints, Calendar) had highly repetitive CRUD code.
+- Source switching (between SQLite and localStorage) meant copy-pasting and high maintenance cost.
+
+***
+
+### 2. Refactoring Goals
+- Unified CRUD interface.
+- Support for both SQLite and localStorage, easily switchable.
+- Fully type-safe and extendable with TypeScript.
+
+***
+
+### 3. Technical Approach
+- Use a generic function to abstract CRUD: `getAll`, `add`, `update(id, data)`, `remove(id)`.
+- Dynamically construct parameterized SQL queries to prevent injection.
+- Single implementation for both localStorage and SQLite—the caller doesn’t care which.
+

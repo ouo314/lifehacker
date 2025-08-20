@@ -50,3 +50,17 @@ export type EventUpdates = {
     description?: string;
     type?: string;
 }
+
+export type Expense = {
+    id: number;
+    amount: number;
+    category: string;
+    subCategory: string;
+    paymentMethod: string;
+    date: string;
+    timeOfDay: string;
+    location: string;
+    shopName: string;
+    area: string;
+    satisfication: number;
+}

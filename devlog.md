@@ -83,3 +83,93 @@ Cannot apply unknown utility class 'outline-ring/50'
 修正深色模式下框線異常的問題 
 修正SQL/local stroge切換異常問題 (window.__TAURI__已經停用)
 修正event無法拖曳(名稱差異)
+---
+## 12
+Database Refactor Devlog
+1. Problem Discovery
+Multiple hooks (Todos, PainPoints, Calendar) had highly repetitive CRUD code.
+Source switching (between SQLite and localStorage) meant copy-pasting and high maintenance cost.
+2. Refactoring Goals
+Unified CRUD interface.
+Support for both SQLite and localStorage, easily switchable.
+Fully type-safe and extendable with TypeScript.
+3. Technical Approach
+Use a generic function to abstract CRUD: getAll, add, update(id, data), remove(id).
+Dynamically construct parameterized SQL queries to prevent injection.
+Single implementation for both localStorage and SQLite—the caller doesn’t care which.
+---
+## 13
+新增記帳功能
+
+分類與子分類：
+
+食物飲料：
+三餐、甜點/零食、聚餐、飲料、
+獎勵餐
+
+交通運輸：
+大眾運輸（日常通勤）
+計程車/Uber
+停車費
+載具維修保養
+加油費
+
+學習教育：
+書籍
+文具
+學雜費
+
+娛樂休閒：
+電影/戲劇
+遊戲
+運動活動
+社交聚會
+興趣嗜好
+
+生活：
+個人清潔用品
+服飾配件
+居家用品
+3C電子產品
+理髮
+
+醫療健康：
+醫療費用
+保健食品
+健身/運動
+個人護理
+
+旅行:
+
+其他支出：
+tag
+
+2. 付款方式記錄
+現金
+信用卡/金融卡
+電子支付（街口、LINE Pay等）
+銀行轉帳
+家人支付
+
+3. 時間 
+時間段：早上、下午、晚上
+星期：工作日 vs 週末
+月份：季節性支出變化
+4. 地點資訊
+
+詳細地址（如有GPS）
+商家名稱
+地區分類（學校、住宿附近、市區等）
+5. 消費動機與情境
+(需要詳細定義)
+計劃性消費
+衝動消費
+緊急需求
+社交需求
+特殊事件
+
+6. 滿意度評分
+1分：完全不值得/後悔
+5分：非常滿意/物超所值
+
+id 金額 分類 子分類 付款方式 時間(日期+早上 下午 晚上) 地點 動機 滿意度 

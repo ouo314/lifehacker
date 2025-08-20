@@ -46,6 +46,20 @@ pub fn run() {
                 );"#,
             kind: MigrationKind::Up,
         },
+        Migration {
+            version: 4,
+            description: "create init e",
+            sql: r#"CREATE TABLE IF NOT EXISTS calendarEvents(
+                id TEXT PRIMARY KEY ,
+                title TEXT NOT NULL,
+                start_date TEXT NOT NULL,
+                end_date TEXT NOT NULL,
+                all_day BOOLEAN DEFAULT 0,
+                description TEXT,
+                type TEXT DEFAULT 'calendar'
+                );"#,
+            kind: MigrationKind::Up,
+        },
     ];
     tauri::Builder::default()
         .plugin(

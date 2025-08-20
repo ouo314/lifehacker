@@ -1,4 +1,5 @@
 import { Todo, PainPoint, CalendarEvent, EventData } from "./demo";
+
 const read = <T>(k: string, d: T): T =>
     JSON.parse(localStorage.getItem(k) ?? JSON.stringify(d));
 
@@ -13,7 +14,7 @@ export const demoStore = {
             list.push({ id: Date.now(), text, status: 0 });
             write('todos', list);
         },
-        toggle: (id: number) => {
+        update: (id: number) => {
             const list = read<Todo[]>('todos', []).map(t =>
                 t.id === id ? { ...t, status: t.status ? 0 : 1 } : t
             );
