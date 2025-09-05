@@ -1,0 +1,77 @@
+import { Button } from "../../components/ui/button";
+import { BsPlusSquare } from "react-icons/bs";
+import { useState } from "react";
+import { PainCard } from "./PainCard";
+import { PainDialog } from "./PainDialog";
+import { useExpense } from "./useExpense";
+import type { Expense } from '../../lib/demo';
+
+export default function PainPage() {
+    const { getAll, add, update, remove } = useExpense();
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [editing, setEditing] = useState<Expense | null>(null);
+    const [list, setList] = useState<Expense[] | null>(null);
+    const refresh = async () => {
+        setList(await getAll());
+    }
+    const handleSave = (data: Expense | Omit<Expense, "id">, id: number) => {
+        if (editing) {
+            update(data as Omit<Expense, "id">, id);
+        } else {
+            add(data as Expense);
+        }
+    };
+
+    return (
+        <div className= "p-6 max-w-4xl mx-auto" >
+        <div className="flex justify-between items-center mb-6" >
+            <h1 className="text-2xl font-bold" > Expense Record </h1>
+                < Button
+    className = "btn-primary flex items-center gap-2"
+    onClick = {() => {
+        setEditing(null);
+        setDialogOpen(true);
+    }
+}
+aria - label="Add Record"
+    >
+    <BsPlusSquare size={ 18 } />
+                    Add Record
+    </Button>
+    </div>
+
+    < div className = "grid gap-4 md:grid-cols-2 lg:grid-cols-3" >
+    {
+        list.length === 0 ? (
+            <div className= "col-span-full text-center py-12 text-muted-foreground" >
+            <BsPlusSquare size={ 48 } className = "mx-auto mb-4 opacity-50" />
+                <p>No Record Yet </p>
+                    < p className = "text-sm mt-2" > Click Button To Add Record </p>
+                        </div>
+                ) : (
+    list.map(p => (
+        <PainCard
+                            key= { p.id }
+                            data = { p }
+                            onClick = {() => {
+        setEditing(p);
+                                setDialogOpen(true);
+    }}
+                        />
+    ))
+                )}
+</div>
+
+    < PainDialog
+open = { dialogOpen }
+initial = { editing }
+onOpenChange = { setDialogOpen }
+onSave = { handleSave }
+onDelete = { editing?() => {
+    remove(editing.id);
+    setDialogOpen(false);
+} : undefined}
+            />
+    </div>
+    );
+}

@@ -1,4 +1,4 @@
-import { Todo, PainPoint, CalendarEvent, EventData } from "./demo";
+import { Todo, PainPoint, CalendarEvent, EventData, Expense } from "./demo";
 
 const read = <T>(k: string, d: T): T =>
     JSON.parse(localStorage.getItem(k) ?? JSON.stringify(d));
@@ -71,5 +71,21 @@ export const demoStore = {
         },
         remove: (id: string) =>
             write('calendarEvents', read<CalendarEvent[]>('calendarEvents', []).filter(ev => ev.id !== id)),
+    },
+    expense: {
+        all: (): Expense[] => read('expense', []),
+        add: (e: Omit<Expense, 'id'>) => {
+            const list = read<Expense[]>('expense', []);
+            const id = list.length ? Math.max(...list.map(x => x.id)) + 1 : 1;
+            list.unshift({ id, ...e });
+            write('expense', list);
+        },
+        update: (e: Partial<Omit<Expense, 'id'>>, id: number) => {
+            const list = read<Expense[]>('expense', []).map(x => x.id === id ? e : x);
+            write('expense', list);
+        },
+        remove: (id: number) => {
+            write('expense', read<Expense[]>('expense', []).filter(x => x.id !== id));
+        },
     },
 };

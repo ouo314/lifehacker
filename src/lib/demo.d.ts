@@ -59,8 +59,6 @@ export type Expense = {
     paymentMethod: string;
     date: string;
     timeOfDay: string;
-    location: string;
-    shopName: string;
     area: string;
     satisfication: number;
 }

@@ -48,15 +48,18 @@ pub fn run() {
         },
         Migration {
             version: 4,
-            description: "create init e",
-            sql: r#"CREATE TABLE IF NOT EXISTS calendarEvents(
-                id TEXT PRIMARY KEY ,
-                title TEXT NOT NULL,
-                start_date TEXT NOT NULL,
-                end_date TEXT NOT NULL,
-                all_day BOOLEAN DEFAULT 0,
-                description TEXT,
-                type TEXT DEFAULT 'calendar'
+            description: "create init expense sql",
+            //id 金額 分類 子分類 付款方式 時間(日期+早上 下午 晚上) 地點 動機 重要度 平台
+            sql: r#"CREATE TABLE IF NOT EXISTS expense(
+                id INTERGER PRIMARY KEY ,
+                amount TEXT NOT NULL,
+                category TEXT,
+                subCategory TEXT,
+                paymentMethod TEXT,
+                date TEXT,
+                timeOfDate TEXT,
+                area TEXT,
+                satification INTERGER
                 );"#,
             kind: MigrationKind::Up,
         },

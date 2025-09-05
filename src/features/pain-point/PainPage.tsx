@@ -13,10 +13,10 @@ export default function PainPage() {
 
     const handleSave = (data: PainPoint | Omit<PainPoint, "id">) => {
         if (editing) {
-            // 編輯模式：data 包含 id
+
             update(data as PainPoint);
         } else {
-            // 新增模式：data 不包含 id
+
             add(data as Omit<PainPoint, "id">);
         }
     };

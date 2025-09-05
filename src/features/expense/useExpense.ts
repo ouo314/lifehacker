@@ -16,7 +16,13 @@ export const useExpense = () => {
 
     }, []);
 
-
+    const getAll = async () => {
+        if (db) {
+            return await db.select<Expense[]>(`SELECT * FROM expense`);
+        } else {
+            return demoStore.expense.all();
+        }
+    }
     const add = async (data: Expense) => {
         if (db) {
             const columns = Object.keys(data).join(',');
@@ -25,39 +31,36 @@ export const useExpense = () => {
                 .join(',');
             const values = Object.values(data);
             await db.execute(
-                "INSERT INTO todos (text,type) VALUES ($1,'todo')",
-                [text]
+                `INSERT INTO expense (${columns}) VALUES (${placeholders})`,
+                values
             );
         } else {
-            demoStore.todos.add(text);
+            demoStore.expense.add(data);
         }
-        refresh();
-    };
 
-    const toggle = async (todo: Todo) => {
-        if (db) {
-            await db.execute('UPDATE todos SET status=$1 WHERE id=$2', [
-                todo.status ? 0 : 1,
-                todo.id,
-            ]);
-        } else {
-            demoStore.todos.update(todo.id);
-        }
-        refresh();
     };
-
-    const remove = async (todo: Todo) => {
+    const update = async (data: Partial<Omit<Expense, 'id'>>, id: number) => {
+        const values = Object.values(data);
         if (db) {
-            await db.execute('DELETE FROM todos WHERE id=?', [todo.id])
+            const setClause = Object.keys(data).map((key, index) =>
+                `${key}=$${index + 2}`).join(',')
+
+            return await db.execute(
+                `UPDATE expense SET 
+                ${setClause} 
+                WHERE id=$1`,
+                [id, ...values])
         } else {
-            demoStore.todos.remove(todo.id);
+            demoStore.expense.update(data, id);
         }
-        refresh();
+    };
+    const remove = async (id: number) => {
+        if (db) {
+            return await db.execute(`DELETE FROM expense WHERE id=?`, [id])
+        } else {
+            demoStore.expense.remove(id);
+        }
+
     }
-
-    useEffect(() => {
-        refresh();
-    }, [db]);
-
-    return { todos, add, toggle, remove };
+    return { getAll, add, update, remove };
 };
